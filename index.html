@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem phim</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="style.css"> <!-- Đường dẫn tới file CSS riêng của bạn -->
+</head>
+
+<body>
+    <!-- http://127.0.0.1:11470/53174d97d87642bb031f1aaf4b5b253d227badf8/1 -->
+    <div class="player-container">
+        <div class="player-wrapper">
+            <header>Current Video: <span id="videoName">blank</span> </header>
+            <video id="player" controls style="--plyr-font-family: 'Noto Sans', sans-serif; --plyr-font-size-small: 18px; --plyr-font-size-large: 24px; --plyr-font-size-xlarge: 28px;">
+                <source src="https://cdn.plyr.io/static/blank.mp4" type="video/mp4" />
+            </video>
+            <div class="controls">
+                <input type="text" id="videoInput" placeholder="Nhập link video mới">
+                <button id="changeVideoBtn">Đổi video</button>
+                <button id="changeSubtitleBtn">Đổi Subtitle</button>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const player = new Plyr('#player', {
+                captions: {
+                    active: true,
+                    language: 'vi',
+                    update: true
+                }
+            });
+
+            const changeVideoBtn = document.getElementById('changeVideoBtn');
+            const videoName = document.getElementById('videoName');
+            const videoInput = document.getElementById('videoInput');
+            const changeSubtitleBtn = document.getElementById('changeSubtitleBtn');
+
+            changeVideoBtn.addEventListener('click', function () {
+                const newVideoSrc = videoInput.value;
+                videoName.innerHTML = newVideoSrc;
+                player.source = {
+                    type: 'video',
+                    sources: [
+                        {
+                            src: newVideoSrc,
+                            type: 'video/mp4',
+                        },
+                    ],
+                };
+            });
+
+            changeSubtitleBtn.addEventListener('click', function () {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = '.vtt'; // Chỉ chấp nhận file vtt
+                fileInput.onchange = function (event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const video = player.elements.container.querySelector('video');
+
+                        // Xóa các track phụ đề cũ
+                        const existingTracks = video.querySelectorAll('track[kind="captions"]');
+                        existingTracks.forEach(existingTrack => existingTrack.remove());
+
+                        const track = document.createElement('track');
+                        track.kind = 'captions';
+                        track.label = 'Subtitle';
+                        track.src = URL.createObjectURL(file); // Tạo URL từ file
+                        track.srclang = 'vi';
+                        track.default = true;
+
+                        video.appendChild(track);
+                    }
+                };
+                fileInput.click(); // Mở hộp thoại tải lên tập tin
+            });
+        });
+    </script>
+</body>
+
+</html>

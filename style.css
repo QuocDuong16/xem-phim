@@ -1,0 +1,73 @@
+/* Reset some default styles */
+body, div, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    background-color: #000;
+}
+
+/* Center the player */
+.player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+}
+
+/* Style the player and controls */
+.player-wrapper {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+header {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 14px;
+    padding: 2px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+video {
+    width: 100%;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.controls input[type="text"] {
+    width: 70%;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.controls button {
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4285F4;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #3367D6;
+}
+
+.controls button:focus {
+    outline: none;
+}
